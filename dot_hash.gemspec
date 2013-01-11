@@ -15,4 +15,6 @@ Gem::Specification.new do |gem|
   gem.name          = "dot_hash"
   gem.require_paths = ["lib"]
   gem.version       = DotHash::VERSION
+
+  gem.add_development_dependency "rake"
 end
