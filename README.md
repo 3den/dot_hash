@@ -1,7 +1,7 @@
 # DotHash
 
 A very efficient gem that lets you use hashes as object properties. It is almost as fast as a plain Hash 
-since it's complexiy is also linear, `O(n) # where N is the number of nested parents of the given property`.
+since it's complexity is also linear, `O(n) # where N is the number of nested parents of the given property`.
 
 ## Installation
 
