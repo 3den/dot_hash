@@ -6,5 +6,4 @@ module DotHash
   end
 end
 
-puts "TO PROPERTIES"
 Hash.send :include, DotHash::HashToProperties
