@@ -13,7 +13,7 @@ module DotHash
     private
 
     def fetch(key)
-      simbolize_key key
+      symbolize_key key
       has_key? key and get_value key
     end
 
@@ -29,7 +29,7 @@ module DotHash
       hash[key] = self.class.new value
     end
 
-    def simbolize_key(key)
+    def symbolize_key(key)
       return unless hash.has_key?(key.to_s)
       hash[key.to_sym] = hash.delete key.to_s
     end
