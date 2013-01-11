@@ -19,11 +19,13 @@ Or install it yourself as:
 
 ## Usage
 
+```ruby
 some_hash = {size: {height: 100, width: 500}, "color" => "red"}
 properties = some_hash.to_properties
 
 properties.size.height # returns 100, it is the same as some_hash[:size][:height]
 properties.color       # returns "red", it works with Strings and Symbol keys
+```
 
 ## Contributing
 
