@@ -7,15 +7,11 @@ module DotHash
     end
 
     def method_missing(key)
-      fetch key or super
+      symbolize_key key
+      has_key?(key) ? get_value(key) : super
     end
 
     private
-
-    def fetch(key)
-      symbolize_key key
-      has_key? key and get_value key
-    end
 
     def has_key?(key)
       hash.has_key? key.to_sym

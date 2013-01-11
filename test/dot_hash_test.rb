@@ -25,7 +25,7 @@ module DotHash
     describe "with a nested hash" do
       before do
         @settings = Properties.new user: {
-          "info" => {name: "dude"}
+          "info" => {name: "dude", is_admin: false}
         }
       end
 
@@ -35,7 +35,9 @@ module DotHash
 
       it "gets chained properties" do
         settings.user.info.name.must_equal "dude"
+        settings.user.info.is_admin.must_equal false
       end
+
     end
 
   end
