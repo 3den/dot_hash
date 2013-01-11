@@ -7,17 +7,31 @@ class DotHash
   end
 
   def method_missing(key)
-    has_key?(key) ? get_key(key) : super
+    fetch key or super
   end
 
   private
 
-  def has_key?(key)
-    hash.has_key?(key)
+  def fetch(key)
+    simbolize_key key
+    has_key? key and get_value key
   end
 
-  def get_key(key)
-    hash[key]
+  def has_key?(key)
+    hash.has_key? key.to_sym
+  end
+
+  def get_value(key)
+    key = key.to_sym
+    value = hash[key]
+    return value unless value.is_a? Hash
+
+    hash[key] = self.class.new value
+  end
+
+  def simbolize_key(key)
+    return unless hash.has_key?(key.to_s)
+    hash[key.to_sym] = hash.delete key.to_s
   end
 
 end
