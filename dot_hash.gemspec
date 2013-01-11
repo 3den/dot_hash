@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path('../lib', __FILE__)
-require 'dot_hash'
+require 'dot_hash/version'
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Marcelo Eden"]
