@@ -16,6 +16,11 @@ module DotHash
       has_key?(key) or super(key, *args)
     end
 
+    def [](key)
+      symbolize_key key
+      get_value(key)
+    end
+
     private
 
     def has_key?(key)

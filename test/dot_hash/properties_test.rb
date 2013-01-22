@@ -39,6 +39,20 @@ module DotHash
           settings.user.info.is_admin.must_equal false
         end
       end
+
+      describe "#[]" do
+        before do
+          @settings = Properties.new user: { name: "dude" }
+        end
+
+        it "accesses properties like a symbol hash" do
+          settings[:user][:name].must_equal "dude"
+        end
+
+        it "accesses properties like a string hash" do
+          settings["user"]["name"].must_equal "dude"
+        end
+      end
     end
 
     describe "#respond_to?" do

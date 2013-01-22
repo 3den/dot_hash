@@ -2,7 +2,7 @@
 # DotHash
 [![Build Status](https://travis-ci.org/3den/dot_hash.png?branch=master)](https://travis-ci.org/3den/dot_hash)
 
-A very efficient gem that lets you use hashes as object properties. It is almost as fast as a plain Hash 
+A very efficient gem that lets you use hashes as object properties. It is almost as fast as a plain Hash
 since it's complexity is also linear, `O(n) # where N is the number of nested parents of the given property`.
 
 ## Installation
@@ -27,6 +27,8 @@ properties = some_hash.to_properties
 
 properties.size.height # returns 100, it is the same as some_hash[:size][:height]
 properties.color       # returns "red", it works with Strings and Symbol keys
+properties[:color]     # returns "red", can be used like a hash with string keys
+properties["color"]    # returns "red", can be used like a hash with symbol keys
 ```
 
 ## Contributing
