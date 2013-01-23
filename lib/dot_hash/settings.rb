@@ -6,8 +6,8 @@ module DotHash
       @configs = Properties.new(configs)
     end
 
-    def method_missing(*args)
-      configs.send(*args)
+    def method_missing(key, *args, &block)
+      configs.send(key, *args, &block)
     end
 
     def respond_to?(key)

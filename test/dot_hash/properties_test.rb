@@ -25,6 +25,12 @@ module DotHash
         it "gets all values from a given property" do
           properties.values.must_equal ["15", 100]
         end
+
+        it "responds to a block method" do
+          properties.map do |key, value|
+            [key, value]
+          end.must_equal [[:speed, "15"], ["power", 100]]
+        end
       end
 
       describe "with a nested hash" do

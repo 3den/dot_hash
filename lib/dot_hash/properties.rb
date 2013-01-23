@@ -7,9 +7,9 @@ module DotHash
       @hash = hash
     end
 
-    def method_missing(key)
+    def method_missing(key, *args, &block)
       symbolize_key key
-      has_key?(key) ? get_value(key) : super
+      has_key?(key) ? get_value(key, *args, &block) : super
     end
 
     def respond_to?(key)
@@ -28,9 +28,9 @@ module DotHash
       hash.has_key?(key.to_sym) or hash.respond_to?(key)
     end
 
-    def get_value(key)
+    def get_value(key, *args, &block)
       key = key.to_sym
-      value = hash.fetch(key) { hash.send(key) }
+      value = hash.fetch(key) { hash.send(key, *args, &block) }
       return value unless value.is_a?(Hash)
       hash[key] = self.class.new value
     end
