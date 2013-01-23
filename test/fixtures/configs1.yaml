@@ -1,0 +1,7 @@
+default: &default
+  speed: 10
+  power: 11
+
+rogue:
+  <<: *default
+  speed: 20
