@@ -17,8 +17,8 @@ module DotHash
     class << self
       attr_reader :instance
 
-      def method_missing(key)
-        instance.public_send key
+      def method_missing(key, *args, &block)
+        instance.public_send key, *args, &block
       end
 
       def respond_to?(key)

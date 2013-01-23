@@ -51,6 +51,7 @@ module DotHash
 
       it "gets hash properties" do
         Settings.site.must_equal "skyo.com"
+        Settings['site'].must_equal "skyo.com"
       end
     end
 
