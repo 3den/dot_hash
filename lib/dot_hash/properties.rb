@@ -11,9 +11,9 @@ module DotHash
       has_key?(key) ? get_value(key) : super
     end
 
-    def respond_to?(key, *args)
+    def respond_to?(key)
       symbolize_key key
-      has_key?(key) or super(key, *args)
+      has_key?(key) or super(key)
     end
 
     def [](key)
@@ -24,14 +24,13 @@ module DotHash
     private
 
     def has_key?(key)
-      hash.has_key? key.to_sym
+      hash.has_key?(key.to_sym) or hash.respond_to?(key)
     end
 
     def get_value(key)
       key = key.to_sym
-      value = hash[key]
-      return value unless value.is_a? Hash
-
+      value = hash.fetch(key) { hash.send(key) }
+      return value unless value.is_a?(Hash)
       hash[key] = self.class.new value
     end
 

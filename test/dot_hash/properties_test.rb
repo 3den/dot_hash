@@ -21,6 +21,10 @@ module DotHash
         it "gets a property from a stringed key" do
           properties.power.must_equal 100
         end
+
+        it "gets all values from a given property" do
+          properties.values.must_equal ["15", 100]
+        end
       end
 
       describe "with a nested hash" do
@@ -75,7 +79,11 @@ module DotHash
       end
 
       it "doesn't respond to a missing property" do
-        properties.wont_respond_to :size
+        properties.wont_respond_to :power
+      end
+
+      it "responds to public hash methods" do
+        properties.must_respond_to :keys
       end
     end
 
