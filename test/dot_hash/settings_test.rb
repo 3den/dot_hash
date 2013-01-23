@@ -12,10 +12,12 @@ module DotHash
 
       it "gets hash properties" do
         settings.site.must_equal "skyo.com"
+        settings[:site].must_equal "skyo.com"
       end
 
       it "gets a nested hash property" do
         settings.facebook.api.must_equal "123"
+        settings['facebook']['api'].must_equal "123"
       end
     end
 
