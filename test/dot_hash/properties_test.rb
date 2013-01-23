@@ -59,6 +59,16 @@ module DotHash
       end
     end
 
+    describe "#to_hash" do
+      before do
+        @properties = Properties.new user: { name: "dude" }
+      end
+
+      it "returns a hash" do
+        properties.to_hash.must_equal user: {name: "dude"}
+      end
+    end
+
     describe "#respond_to?" do
       before do
         @properties = Properties.new speed: "15",
