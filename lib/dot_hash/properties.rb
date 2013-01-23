@@ -31,7 +31,8 @@ module DotHash
     def get_value(key, *args, &block)
       key = key.to_sym
       value = hash.fetch(key) { hash.send(key, *args, &block) }
-      return value unless value.is_a?(Hash)
+
+      return value unless hash.has_key?(key) and value.is_a?(Hash)
       hash[key] = self.class.new value
     end
 
