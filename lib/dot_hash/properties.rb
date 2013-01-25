@@ -9,7 +9,9 @@ module DotHash
 
     def method_missing(key, *args, &block)
       symbolize_key key
-      has_key?(key) ? get_value(key, *args, &block) : super
+      has_key?(key) ?
+        execute(key, *args, &block) :
+        super(key, *args, &block)
     end
 
     def respond_to?(key)
@@ -28,11 +30,16 @@ module DotHash
       hash.has_key?(key.to_sym) or hash.respond_to?(key)
     end
 
-    def get_value(key, *args, &block)
-      key = key.to_sym
-      value = hash.fetch(key) { hash.send(key, *args, &block) }
+    def execute(key, *args, &block)
+      value = get_value(key)
+      return value unless value.nil?
+      hash.public_send(key, *args, &block)
+    end
 
-      return value unless hash.has_key?(key) and value.is_a?(Hash)
+    def get_value(key)
+      key = key.to_sym
+      value = hash[key]
+      return value unless value.is_a?(Hash)
       hash[key] = self.class.new value
     end
 
