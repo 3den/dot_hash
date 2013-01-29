@@ -88,8 +88,8 @@ module DotHash
       describe "loading from files" do
         it "loads from a file" do
           Settings.load fixtures_path("configs1.yaml")
-          Settings.rogue.speed.must_equal 20
-          Settings.rogue.power.must_equal 11
+          Settings.rogue.attr.speed.must_equal 20
+          Settings.rogue.attr.power.must_equal 11
         end
 
         it "loads from two files" do
@@ -98,14 +98,14 @@ module DotHash
             fixtures_path("configs2.yaml")
           )
 
-          Settings.rogue.speed.must_equal 25
-          Settings.rogue.power.must_equal 11
+          Settings.rogue.attr.speed.must_equal 25
+          Settings.rogue.attr.power.must_equal 11
         end
 
         it "loads from a directory" do
           Settings.load fixtures_path
-          Settings.rogue.speed.must_equal 25
-          Settings.rogue.power.must_equal 11
+          Settings.rogue.attr.speed.must_equal 25
+          Settings.rogue.attr.power.must_equal 11
         end
       end
     end

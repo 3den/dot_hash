@@ -1,2 +1,3 @@
 rogue:
-  speed: 25
+  attr:
+    speed: 25

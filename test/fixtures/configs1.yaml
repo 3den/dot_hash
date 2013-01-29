@@ -1,7 +1,10 @@
 default: &default
-  speed: 10
-  power: 11
+  attr: &attr
+    speed: 10
+    power: 11
 
 rogue:
   <<: *default
-  speed: 20
+  attr:
+    <<: *attr
+    speed: 20
