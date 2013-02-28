@@ -3,7 +3,7 @@ module DotHash
     attr_reader :configs
 
     def initialize(configs, wrapper=Properties)
-      @configs = Properties.new(configs)
+      @configs = wrapper.new(configs)
     end
 
     def method_missing(key, *args, &block)
@@ -48,7 +48,7 @@ module DotHash
       end
 
       def get_hash_from_file(file)
-        return {} unless file =~ /\.(yaml|yml)/
+        return {} unless file =~ /\.(yaml|yml)$/
         YAML.load_file(file)
       end
 

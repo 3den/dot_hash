@@ -102,6 +102,12 @@ module DotHash
           Settings.rogue.attr.power.must_equal 11
         end
 
+        it "does not load files without the yaml extension" do
+          Settings.load fixtures_path("config.yaml.example")
+
+          -> { Settings.alive }.must_raise NoMethodError
+        end
+
         it "loads from a directory" do
           Settings.load fixtures_path
           Settings.rogue.attr.speed.must_equal 25
