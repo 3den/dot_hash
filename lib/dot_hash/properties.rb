@@ -8,13 +8,19 @@ module DotHash
     end
 
     def method_missing(key, *args, &block)
-      has_key?(key) ?
-        execute(key, *args, &block) :
+      if has_key?(key)
+        execute(key, *args, &block)
+      else
         super(key, *args, &block)
+      end
     end
 
     def respond_to?(key)
       has_key?(key) or super(key)
+    end
+
+    def to_s
+      hash.to_s
     end
 
     def [](key)

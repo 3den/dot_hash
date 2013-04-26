@@ -15,7 +15,9 @@ module DotHash
         end
 
         it "raises an error if the method is not on the hash" do
-          -> {properties.name}.must_raise NoMethodError
+          -> {
+            properties.name
+          }.must_raise NoMethodError, "undefined method `name' for {:speed=>\"15\", \"power\"=>100}:DotHash::Properties"
         end
 
         it "gets a property from a stringed key" do
@@ -72,6 +74,19 @@ module DotHash
 
       it "returns a hash" do
         properties.to_hash.must_equal user: {name: "dude"}
+      end
+    end
+
+    describe "#to_s" do
+      attr_reader :hash
+
+      before do
+        @hash = { user: {name: "dude"} }
+        @properties = Properties.new @hash
+      end
+
+      it "returns the hash as a string" do
+        properties.to_s.must_equal hash.to_s
       end
     end
 
