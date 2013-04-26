@@ -1,5 +1,6 @@
 require "minitest/autorun"
-require File.expand_path("../../lib/dot_hash", __FILE__)
+require_relative "../lib/dot_hash"
+
 TESTS_PATH= File.dirname(__FILE__)
 
 def fixtures_path file=nil
