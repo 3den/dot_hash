@@ -23,6 +23,10 @@ module DotHash
       hash.to_s
     end
 
+    def to_json
+      hash.to_json
+    end
+
     def [](key)
       get_value(key)
     end

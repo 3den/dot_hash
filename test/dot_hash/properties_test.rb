@@ -77,6 +77,16 @@ module DotHash
       end
     end
 
+    describe "#to_json" do
+      before do
+        @properties = Properties.new user: { name: "dude" }
+      end
+
+      it "returns a hash" do
+        properties.to_json.must_equal '{"user":{"name":"dude"}}'
+      end
+    end
+
     describe "#to_s" do
       attr_reader :hash
 
