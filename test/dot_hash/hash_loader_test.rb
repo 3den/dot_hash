@@ -44,7 +44,16 @@ module DotHash
 
         loader.load.must_equal({
           "default"=>{"attr"=>{"speed"=>10, "power"=>11}},
-          "rogue"=>{"attr"=>{"speed"=>25, "power"=>11}}
+          "rogue"=>{"attr"=>{"speed"=>25, "power"=>11}},
+          "hero"=>{"name"=>"Eden", "power"=>100, "location"=>TESTS_PATH}
+        })
+      end
+
+      it "loads ERB files" do
+        loader = HashLoader.new fixtures_path("config3.yaml.erb")
+
+        loader.load.must_equal({
+          "hero"=>{"name"=>"Eden", "power"=>100, "location"=>TESTS_PATH}
         })
       end
     end

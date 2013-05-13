@@ -37,8 +37,12 @@ module DotHash
     end
 
     def get_hash_from_file(file)
-      return {} unless file =~ /\.(yaml|yml)$/
-      YAML.load_file(file)
+      return {} unless file =~ /\.(yaml|yml)(\.erb)?$/
+      YAML.load load_erb(file)
+    end
+
+    def load_erb(file)
+      ERB.new(File.read(file)).result
     end
 
     def get_hash_from_directory(directory)
