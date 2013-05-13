@@ -50,7 +50,7 @@ module DotHash
       end
 
       it "loads ERB files" do
-        loader = HashLoader.new fixtures_path("config3.yaml.erb")
+        loader = HashLoader.new fixtures_path("configs3.yaml.erb")
 
         loader.load.must_equal({
           "hero"=>{"name"=>"Eden", "power"=>100, "location"=>TESTS_PATH}
