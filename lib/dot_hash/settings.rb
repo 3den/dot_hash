@@ -28,6 +28,10 @@ module DotHash
       def load(*args)
         @instance = new HashLoader.new(*args).load
       end
+
+      def namespace(namespace)
+        @instance = @instance[namespace]
+      end
     end
   end
 end
