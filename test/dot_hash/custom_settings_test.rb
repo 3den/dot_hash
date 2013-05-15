@@ -5,15 +5,9 @@ class CustomSettings < DotHash::Settings
 end
 
 describe CustomSettings do
-  it "loads the the settings files" do
+  it "loads the given settings" do
     CustomSettings.attributes.power.must_equal 10
     CustomSettings.attributes.skills.must_equal ["fireball", "frost"]
-  end
-
-  it "loads the settings within the namespace" do
-    CustomSettings.namespace "attributes"
-    CustomSettings.power.must_equal 10
-    CustomSettings.skills.must_equal ["fireball", "frost"]
   end
 end
 
@@ -25,7 +19,7 @@ end
 
 describe CustomSettings2 do
   it "loads the settings within the namespace" do
-    CustomSettings.power.must_equal 10
-    CustomSettings.skills.must_equal ["fireball", "frost"]
+    CustomSettings2.power.must_equal 10
+    CustomSettings2.skills.must_equal ["fireball", "frost"]
   end
 end
