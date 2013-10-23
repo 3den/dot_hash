@@ -38,3 +38,7 @@ properties["color"]    # returns "red", can be used like a hash with symbol keys
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/3den/dot_hash/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
