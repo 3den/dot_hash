@@ -46,7 +46,7 @@ module DotHash
     end
 
     def get_hash_from_directory(directory)
-      Dir["#{directory}/**/*"].inject({}) do |hash, file|
+      Dir["#{directory}/**/*"].sort.inject({}) do |hash, file|
         merge_hashes hash, get_hash_from_file(file)
       end
     end
