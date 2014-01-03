@@ -128,5 +128,43 @@ module DotHash
       end
     end
 
+    describe '#method' do
+      before do
+        @properties = Properties.new speed: "100",
+          info: {name: "Eden"},
+          "color" => "#00FFBB"
+      end
+
+      it 'has a capturable method for a simple property' do
+        @properties.method(:speed).call.must_equal "100"
+      end
+
+      it 'has a capturable method for a nested property' do
+        @properties.info.method(:name).call.must_equal "Eden"
+        @properties.method(:info).call.name.must_equal "Eden"
+      end
+
+      it 'has a capturable method for a string property' do
+        @properties.method(:color).call.must_equal "#00FFBB"
+      end
+
+      it 'does not have a capturable method for a missing property' do
+        lambda do
+          @properties.method(:power)
+        end.must_raise(NameError)
+      end
+
+      it 'has a capturable method for public hash methods' do
+        @properties.method(:keys).must_be_kind_of Method
+      end
+
+      it 'has a capturable method for public methods' do
+        hash_method = @properties.method(:hash)
+        hash_method.must_be_kind_of Method
+        # not Object#hash or Properties#hash#hash
+        hash_method.call.wont_be_kind_of Numeric
+      end
+    end
+
   end
 end
