@@ -26,7 +26,7 @@ module DotHash
       end
 
       def load(*args)
-        @instance = new HashLoader.new(*args).load
+        @instance = new Loader.new(*args).load
       end
 
       def namespace(namespace)

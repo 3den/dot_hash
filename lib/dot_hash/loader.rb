@@ -1,5 +1,5 @@
 module DotHash
-  class HashLoader
+  class Loader
     attr_reader :hashes
 
     def initialize *hashes
