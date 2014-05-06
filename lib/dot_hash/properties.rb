@@ -40,14 +40,19 @@ module DotHash
     end
 
     def execute(key, *args, &block)
-      value = get_value(key)
-      return value unless value.nil?
-      hash.public_send(key, *args, &block)
+      value = get_value(key) do
+        hash.public_send(key, *args, &block)
+      end
     end
 
-    def get_value(key)
+    def get_value(key, &default_block)
       key = hash.has_key?(key.to_s) ? key.to_s : key.to_sym
-      value = hash[key]
+
+      value = hash.fetch(key) do
+        return nil unless default_block
+        return default_block.call
+      end
+
       return value unless value.is_a?(Hash)
       hash[key] = self.class.new value
     end
