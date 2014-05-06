@@ -38,7 +38,7 @@ module DotHash
       describe "with a nested hash" do
         before do
           @properties = Properties.new user: {
-            "info" => {name: "dude", is_admin: false}
+            "info" => {name: "dude", is_admin: false, favorite_thing: nil}
           }
         end
 
@@ -49,6 +49,10 @@ module DotHash
         it "gets chained properties" do
           properties.user.info.name.must_equal "dude"
           properties.user.info.is_admin.must_equal false
+        end
+
+        it 'preserves nil-value nodes' do
+          properties.user.info.favorite_thing.must_equal nil
         end
       end
 
@@ -63,6 +67,10 @@ module DotHash
 
         it "accesses properties like a string hash" do
           properties["user"]["name"].must_equal "dude"
+        end
+
+        it 'returns nil when value not present' do
+          properties['missing'].must_equal nil
         end
       end
     end
