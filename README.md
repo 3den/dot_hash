@@ -1,4 +1,3 @@
-
 # DotHash
 [![Code Climate](https://codeclimate.com/github/3den/dot_hash.png)](https://codeclimate.com/github/3den/dot_hash) [![Build Status](https://travis-ci.org/3den/dot_hash.png?branch=master)](https://travis-ci.org/3den/dot_hash)
 
