@@ -11,13 +11,13 @@ module DotHash
       end
 
       it "gets hash properties" do
-        settings.site.must_equal "skyo.com"
-        settings[:site].must_equal "skyo.com"
+        assert_equal settings.site, "skyo.com"
+        assert_equal settings[:site], "skyo.com"
       end
 
       it "gets a nested hash property" do
-        settings.facebook.api.must_equal "123"
-        settings['facebook']['api'].must_equal "123"
+        assert_equal settings.facebook.api, "123"
+        assert_equal settings['facebook']['api'], "123"
       end
     end
 
@@ -29,6 +29,12 @@ module DotHash
 
       it "responds to a property on the configs" do
         settings.must_respond_to :site
+        settings.must_respond_to :hash
+        settings.must_respond_to :to_s
+      end
+
+      it "does not responds to crasy stuff" do
+        settings.wont_respond_to :foobar
       end
     end
 
@@ -50,8 +56,8 @@ module DotHash
       end
 
       it "gets hash properties" do
-        Settings.site.must_equal "skyo.com"
-        Settings['site'].must_equal "skyo.com"
+        assert_equal Settings.site, "skyo.com"
+        assert_equal Settings['site'], "skyo.com"
       end
     end
 
@@ -73,23 +79,23 @@ module DotHash
         end
 
         it "adds new properties to the previous hash" do
-          Settings.b.x.z.must_equal 10
+          assert_equal Settings.b.x.z, 10
         end
 
         it "keeps non-changed properties untouched" do
-          Settings.a.must_equal 1
+          assert_equal Settings.a, 1
         end
 
         it "merges nested hashes correctly" do
-          Settings.b.c.must_equal 2
+          assert_equal Settings.b.c, 2
         end
       end
 
       describe "loading from files" do
         it "loads from a file" do
           Settings.load fixtures_path("configs1.yaml")
-          Settings.rogue.attr.speed.must_equal 20
-          Settings.rogue.attr.power.must_equal 11
+          assert_equal Settings.rogue.attr.speed, 20
+          assert_equal Settings.rogue.attr.power, 11
         end
 
         it "loads from two files" do
@@ -98,8 +104,8 @@ module DotHash
             fixtures_path("configs2.yaml")
           )
 
-          Settings.rogue.attr.speed.must_equal 25
-          Settings.rogue.attr.power.must_equal 11
+          assert_equal Settings.rogue.attr.speed, 25
+          assert_equal Settings.rogue.attr.power, 11
         end
 
         it "does not load files without the yaml extension" do
@@ -110,8 +116,8 @@ module DotHash
 
         it "loads from a directory" do
           Settings.load fixtures_path
-          Settings.rogue.attr.speed.must_equal 25
-          Settings.rogue.attr.power.must_equal 11
+          assert_equal Settings.rogue.attr.speed, 25
+          assert_equal Settings.rogue.attr.power, 11
         end
       end
     end

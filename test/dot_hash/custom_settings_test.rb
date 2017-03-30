@@ -6,11 +6,10 @@ end
 
 describe CustomSettings do
   it "loads the given settings" do
-    CustomSettings.attributes.power.must_equal 10
-    CustomSettings.attributes.skills.must_equal ["fireball", "frost"]
+    assert_equal CustomSettings.attributes.power, 10
+    assert_equal CustomSettings.attributes.skills, ["fireball", "frost"]
   end
 end
-
 
 class CustomSettings2 < DotHash::Settings
   load attributes: {power: 10, name: "Eden", skills: ["fireball", "frost"]}
@@ -19,7 +18,7 @@ end
 
 describe CustomSettings2 do
   it "loads the settings within the namespace" do
-    CustomSettings2.power.must_equal 10
-    CustomSettings2.skills.must_equal ["fireball", "frost"]
+    assert_equal CustomSettings2.power, 10
+    assert_equal CustomSettings2.skills, ["fireball", "frost"]
   end
 end

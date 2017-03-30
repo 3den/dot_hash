@@ -15,8 +15,8 @@ module DotHash
       end
     end
 
-    def respond_to_missing?(key, *)
-      has_key?(key) or super
+    def respond_to_missing?(key, *args)
+      has_key?(key) or super(key, *args)
     end
 
     def to_s

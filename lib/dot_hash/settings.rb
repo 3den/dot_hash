@@ -1,32 +1,22 @@
 module DotHash
-  class Settings
-    attr_reader :configs
-
-    def initialize(configs, wrapper=Properties)
-      @configs = wrapper.new(configs)
-    end
-
-    def method_missing(key, *args, &block)
-      configs.send(key, *args, &block)
-    end
-
-    def respond_to?(key)
-      configs.respond_to?(key)
+  class Settings < Properties
+    def initialize(*args)
+      super Loader.new(*args).load
     end
 
     class << self
       attr_reader :instance
 
-      def method_missing(key, *args, &block)
-        instance.public_send key, *args, &block
+      def method_missing(*args, &block)
+        instance.public_send(*args, &block)
       end
 
-      def respond_to?(key)
-        super(key) || instance.respond_to?(key)
+      def respond_to_missing?(*args)
+        instance.respond_to?(*args)
       end
 
       def load(*args)
-        @instance = new Loader.new(*args).load
+        @instance = new(*args)
       end
 
       def namespace(namespace)

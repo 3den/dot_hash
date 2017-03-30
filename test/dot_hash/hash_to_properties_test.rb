@@ -15,11 +15,11 @@ describe Hash do
     end
 
     it "gets nested properties" do
-      properties.info.name.must_equal "eagle"
+      assert_equal properties.info.name, "eagle"
     end
 
     it "gets simple properties" do
-      properties.price.must_equal 10
+      assert_equal properties.price, 10
     end
   end
 end

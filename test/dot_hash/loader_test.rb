@@ -9,13 +9,13 @@ module DotHash
           {a: 1, b: {c: 2}},
           {b: {x: {z: 10}}}
         )
-        loader.load.must_equal({a: 1, b: {c: 2, x: {z: 10}}})
+        assert_equal loader.load,({a: 1, b: {c: 2, x: {z: 10}}})
       end
 
       it "loads from a file" do
         loader = Loader.new fixtures_path("configs1.yaml")
 
-        loader.load.must_equal({
+        assert_equal loader.load,({
           "default" => {"attr" => {"speed"=>10, "power"=>11}},
           "rogue" => {"attr" => {"speed"=>20, "power"=>11}}
         })
@@ -27,7 +27,7 @@ module DotHash
           fixtures_path("configs2.yaml")
         )
 
-        loader.load.must_equal({
+        assert_equal loader.load,({
           "default"=>{"attr"=>{"speed"=>10, "power"=>11}},
           "rogue"=>{"attr"=>{"speed"=>25, "power"=>11}}
         })
@@ -36,13 +36,13 @@ module DotHash
       it "does not load files without the yaml extension" do
         loader = Loader.new fixtures_path("config.yaml.example")
 
-        loader.load.must_equal({})
+        assert_equal loader.load,({})
       end
 
       it "loads from a directory" do
         loader = Loader.new fixtures_path
 
-        loader.load.must_equal({
+        assert_equal loader.load,({
           "default"=>{"attr"=>{"speed"=>10, "power"=>11}},
           "rogue"=>{"attr"=>{"speed"=>25, "power"=>11}},
           "hero"=>{"name"=>"Eden", "power"=>100, "location"=>TESTS_PATH}
@@ -52,7 +52,7 @@ module DotHash
       it "loads ERB files" do
         loader = Loader.new fixtures_path("configs3.yaml.erb")
 
-        loader.load.must_equal({
+        assert_equal loader.load,({
           "hero"=>{"name"=>"Eden", "power"=>100, "location"=>TESTS_PATH}
         })
       end

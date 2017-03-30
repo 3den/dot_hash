@@ -11,7 +11,7 @@ module DotHash
         end
 
         it "gets a hash property using the dot notation" do
-          properties.speed.must_equal "15"
+          assert_equal properties.speed, "15"
         end
 
         it "raises an error if the method is not on the hash" do
@@ -21,17 +21,15 @@ module DotHash
         end
 
         it "gets a property from a stringed key" do
-          properties.power.must_equal 100
+          assert_equal properties.power, 100
         end
 
         it "gets all values from a given property" do
-          properties.values.must_equal ["15", 100]
+          assert_equal properties.values, ["15", 100]
         end
 
         it "responds to a block method" do
-          properties.map do |key, value|
-            [key, value]
-          end.must_equal [[:speed, "15"], ["power", 100]]
+          assert_equal properties.map { |k, v| [k, v] }, [[:speed, "15"], ["power", 100]]
         end
       end
 
@@ -47,12 +45,12 @@ module DotHash
         end
 
         it "gets chained properties" do
-          properties.user.info.name.must_equal "dude"
-          properties.user.info.is_admin.must_equal false
+          assert_equal properties.user.info.name, "dude"
+          assert_equal properties.user.info.is_admin, false
         end
 
         it 'preserves nil-value nodes' do
-          properties.user.info.favorite_thing.must_equal nil
+          assert_nil properties.user.info.favorite_thing
         end
       end
 
@@ -62,15 +60,15 @@ module DotHash
         end
 
         it "accesses properties like a symbol hash" do
-          properties[:user][:name].must_equal "dude"
+          assert_equal properties[:user][:name], "dude"
         end
 
         it "accesses properties like a string hash" do
-          properties["user"]["name"].must_equal "dude"
+          assert_equal properties["user"]["name"], "dude"
         end
 
         it 'returns nil when value not present' do
-          properties['missing'].must_equal nil
+          assert_nil properties['missing']
         end
       end
     end
@@ -81,7 +79,7 @@ module DotHash
       end
 
       it "returns a hash" do
-        properties.to_hash.must_equal user: {name: "dude"}
+        assert_equal properties.to_hash, user: {name: "dude"}
       end
     end
 
@@ -91,7 +89,7 @@ module DotHash
       end
 
       it "returns a hash" do
-        properties.to_json.must_equal '{"user":{"name":"dude"}}'
+        assert_equal properties.to_json, '{"user":{"name":"dude"}}'
       end
     end
 
@@ -104,7 +102,7 @@ module DotHash
       end
 
       it "returns the hash as a string" do
-        properties.to_s.must_equal hash.to_s
+        assert_equal properties.to_s, hash.to_s
       end
     end
 
@@ -144,16 +142,16 @@ module DotHash
       end
 
       it 'has a capturable method for a simple property' do
-        @properties.method(:speed).call.must_equal "100"
+        assert_equal @properties.method(:speed).call, "100"
       end
 
       it 'has a capturable method for a nested property' do
-        @properties.info.method(:name).call.must_equal "Eden"
-        @properties.method(:info).call.name.must_equal "Eden"
+        assert_equal @properties.info.method(:name).call, "Eden"
+        assert_equal @properties.method(:info).call.name, "Eden"
       end
 
       it 'has a capturable method for a string property' do
-        @properties.method(:color).call.must_equal "#00FFBB"
+        assert_equal @properties.method(:color).call, "#00FFBB"
       end
 
       it 'does not have a capturable method for a missing property' do
