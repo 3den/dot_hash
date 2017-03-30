@@ -28,7 +28,23 @@ properties.size.height # returns 100, it is the same as some_hash[:size][:height
 properties.color       # returns "red", it works with Strings and Symbol keys
 properties[:color]     # returns "red", can be used like a hash with string keys
 properties["color"]    # returns "red", can be used like a hash with symbol keys
+
+# App Settings
+class Settings < DotHash::Settings
+  load 'path/to/some/settings.yaml', 'path/to/settings-directory/', {something: 'Some Value'}
+end
+
+# Use the settings as a Singleton
+Settings.something
+Settings.other.stuff.from_yml_settings
+
+# Create a settings instance from some YML
+swagger = Settings.new Rails.root.join('config', 'my-swagger.yml')
+
+swagger.info.title # returns the title from swagger doc
 ```
+
+Check the tests for more details.
 
 ## Contributing
 
