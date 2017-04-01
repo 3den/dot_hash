@@ -20,18 +20,28 @@ Or install it yourself as:
 
 ## Usage
 
+You can convert and hash to DotHash's properties.
+
 ```ruby
 some_hash = {size: {height: 100, width: 500}, "color" => "red"}
-properties = some_hash.to_properties
+properties = DotHash.load(some_hash)
 
 properties.size.height # returns 100, it is the same as some_hash[:size][:height]
 properties.color       # returns "red", it works with Strings and Symbol keys
 properties[:color]     # returns "red", can be used like a hash with string keys
 properties["color"]    # returns "red", can be used like a hash with symbol keys
+```
 
+You can use DotHash::Settings to manage all configs of your app it can load yml, json with or without ERB code embeded.
+
+```ruby
 # App Settings
 class Settings < DotHash::Settings
-  load 'path/to/some/settings.yaml', 'path/to/settings-directory/', {something: 'Some Value'}
+  load(
+    'path/to/some/settings.json',
+    'path/to/settings-directory/',
+    {something: 'Some Value'}
+  )
 end
 
 # Use the settings as a Singleton
@@ -40,8 +50,21 @@ Settings.other.stuff.from_yml_settings
 
 # Create a settings instance from some YML
 swagger = Settings.new Rails.root.join('config', 'my-swagger.yml')
-
 swagger.info.title # returns the title from swagger doc
+```
+
+DotHash supports Rails and is very easy to do very fancy stuff with it.
+
+```ruby
+class Settings < DotHash::Settings
+   load(
+      Rails.root.join('config', 'settings.yml'), # loads config/settings.yml
+      Rails.root.join('package.json'), # loads package.json
+      *Dir(Rails.root.join('config', 'settings', '*.yml')), # loads all config/settings/*.yml but dont go to nested directories
+      Rails.root.join('config', 'settings', ENV['SERVER_ENV']), # loads all files on config/settings/<env>/
+      Rails.root.join('config', 'settings.local.yml') # loads config/settings.local.yml
+   )
+end
 ```
 
 Check the tests for more details.
