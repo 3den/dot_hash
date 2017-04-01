@@ -61,7 +61,7 @@ class Settings < DotHash::Settings
       Rails.root.join('config', 'settings.yml'), # loads config/settings.yml
       Rails.root.join('package.json'), # loads package.json
       *Dir(Rails.root.join('config', 'settings', '*.yml')), # loads all config/settings/*.yml but dont go to nested directories
-      Rails.root.join('config', 'settings', ENV['SERVER_ENV']), # loads all files on config/settings/<env>/
+      Rails.root.join('config', 'settings', Rails.env), # loads all files on config/settings/<env>/
       Rails.root.join('config', 'settings.local.yml') # loads config/settings.local.yml
    )
 end
