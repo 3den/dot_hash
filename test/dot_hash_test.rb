@@ -1,13 +1,14 @@
-require_relative "../test_helper"
+require_relative "./test_helper"
 
-describe Hash do
+describe DotHash do
   attr_reader :properties
 
-  describe "#to_propertires" do
+  describe ".load" do
     before do
-      @properties = {
-        "price" => 10, info: {name: "eagle"}
-      }.to_properties
+      @properties = DotHash.load({
+        "price" => 10,
+        info: {name: "eagle"}
+      })
     end
 
     it "returns a DotHash object" do

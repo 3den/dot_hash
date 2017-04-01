@@ -6,10 +6,14 @@ module DotHash
       @hashes = hashes
     end
 
-    def load
+    def hash
       hashes.inject({}) do |hash, arg|
         merge_hashes hash, get_hash_from(arg)
       end
+    end
+
+    def properties
+      Properties.new hash
     end
 
     def merge_hashes(h1, h2)
@@ -29,7 +33,7 @@ module DotHash
     def get_hash_from arg
       if arg.is_a? Hash
         arg
-      elsif File.file? arg
+      elsif File.file? arg.to_s
         get_hash_from_file arg
       elsif File.directory? arg
         get_hash_from_directory arg
@@ -37,8 +41,14 @@ module DotHash
     end
 
     def get_hash_from_file(file)
-      return {} unless file =~ /\.(yaml|yml)(\.erb)?$/
-      YAML.load load_erb(file)
+      case file
+      when /\.ya?ml(\.erb)?$/
+        YAML.load load_erb(file)
+      when /\.json(\.erb)?$/
+        JSON.parse load_erb(file)
+      else
+        {}
+      end
     end
 
     def load_erb(file)

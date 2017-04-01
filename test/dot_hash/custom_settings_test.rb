@@ -1,24 +1,19 @@
 require_relative "../test_helper"
 
 class CustomSettings < DotHash::Settings
-  load attributes: {power: 10, skills: ["fireball", "frost"]}
+  load(
+    fixtures_path, # load from many sources and merges everything
+    attributes: {power: 10, skills: ["fireball", "frost"]}
+  )
 end
 
 describe CustomSettings do
-  it "loads the given settings" do
-    assert_equal CustomSettings.attributes.power, 10
-    assert_equal CustomSettings.attributes.skills, ["fireball", "frost"]
-  end
-end
-
-class CustomSettings2 < DotHash::Settings
-  load attributes: {power: 10, name: "Eden", skills: ["fireball", "frost"]}
-  namespace :attributes
-end
-
-describe CustomSettings2 do
-  it "loads the settings within the namespace" do
-    assert_equal CustomSettings2.power, 10
-    assert_equal CustomSettings2.skills, ["fireball", "frost"]
+  it "loads the all given settings" do
+    assert_equal CustomSettings.to_hash, {
+      "default"=>{"attr"=>{"speed"=>10, "power"=>11}},
+      "rogue"=>{"attr"=>{"speed"=>25, "power"=>11}},
+      "hero"=>{"name"=>"Eden", "power"=>100, "location"=> TESTS_PATH},
+      :attributes=>{:power=>10, :skills=>["fireball", "frost"]}
+    }
   end
 end

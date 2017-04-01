@@ -1,12 +1,14 @@
 module DotHash
   class Settings < Properties
     def initialize(*args)
-      super Loader.new(*args).load
+      super Loader.new(*args).hash
+    end
+
+    def load(*args)
+      @hash = Loader.new(hash, *args).hash
     end
 
     class << self
-      attr_reader :instance
-
       def method_missing(*args, &block)
         instance.public_send(*args, &block)
       end
@@ -16,11 +18,13 @@ module DotHash
       end
 
       def load(*args)
-        @instance = new(*args)
+        instance.load(*args)
       end
 
-      def namespace(namespace)
-        @instance = @instance[namespace]
+      private
+
+      def instance
+        @instance ||= new({})
       end
     end
   end

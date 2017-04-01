@@ -38,14 +38,28 @@ module DotHash
       end
     end
 
-    describe ".instance" do
-      before do
-        configs = {site: "skyo.com"}
-        Settings.load configs
-      end
+    describe "#load" do
+      it 'merges new hashes' do
+        # starts as a empty hash
+        settings = Settings.new
+        assert_equal settings.hash, {}
 
-      it "returns a singleton instance of the settings" do
-        Settings.instance.must_be_instance_of Settings
+        # loads a new hash
+        settings.load({"name" => 'bar'})
+        assert_equal settings.hash, {"name" => "bar"}
+
+        # replaces existent props
+        settings.load({"name" => 'foo'})
+        assert_equal settings.hash, {"name" => "foo"}
+
+        # loads more stuff from a file
+        settings.load(fixtures_path)
+        assert_equal settings.hash, {
+          "name" => "foo",
+          "default" => {"attr" => {"speed"=>10, "power"=>11}},
+          "rogue"=>{"attr"=>{"speed"=>25, "power"=>11}},
+          "hero"=>{"name"=>"Eden", "power"=>100, "location"=> TESTS_PATH}
+        }
       end
     end
 
@@ -93,15 +107,15 @@ module DotHash
 
       describe "loading from files" do
         it "loads from a file" do
-          Settings.load fixtures_path("configs1.yaml")
+          Settings.load fixtures_path("configs1.yml")
           assert_equal Settings.rogue.attr.speed, 20
           assert_equal Settings.rogue.attr.power, 11
         end
 
         it "loads from two files" do
           Settings.load(
-            fixtures_path("configs1.yaml"),
-            fixtures_path("configs2.yaml")
+            fixtures_path("configs1.yml"),
+            fixtures_path("configs2.json")
           )
 
           assert_equal Settings.rogue.attr.speed, 25
