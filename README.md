@@ -53,7 +53,7 @@ swagger = Settings.new Rails.root.join('config', 'my-swagger.yml')
 swagger.info.title # returns the title from swagger doc
 ```
 
-DotHash supports Rails and is very easy to do very fancy stuff with it.
+DotHash supports Rails and is very easy to manage fancy settings with it.
 
 ```ruby
 class Settings < DotHash::Settings
