@@ -33,10 +33,10 @@ module DotHash
     def get_hash_from arg
       if arg.is_a? Hash
         arg
-      elsif File.file? arg.to_s
-        get_hash_from_file arg
       elsif File.directory? arg
         get_hash_from_directory arg
+      else
+        get_hash_from_file arg.to_s
       end
     end
 
