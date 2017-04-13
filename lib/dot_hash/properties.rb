@@ -20,7 +20,8 @@ module DotHash
     end
 
     def ==(other)
-      super(other) or other.to_hash == hash
+      super(other) ||
+        (other.respond_to?(:to_hash) && other.to_hash == hash)
     end
 
     def to_s
@@ -39,8 +40,14 @@ module DotHash
       key = hash.has_key?(key.to_s) ? key.to_s : key.to_sym
       value = hash.fetch(key, *args, &block)
 
-      return value unless value.is_a?(Hash)
-      hash[key] = self.class.new value
+      if value.nil? or hash.respond_to?(key)
+        hashify_item value
+      elsif cached.has_key?(key)
+        value
+      else
+        cached[key] = true
+        hash[key] = hashify_item(value)
+      end
     end
 
     def has_key?(key)
@@ -51,22 +58,33 @@ module DotHash
 
     private
 
+    def cached
+      @cached ||= self.class.new({})
+    end
+
     def execute(key, *args, &block)
       fetch(key) do
-        hash.public_send(key, *args) do |*values|
-          block.call(*hashify_args(values))
+        if block
+          hash.public_send(key, *args) do |*values|
+            block.call(*hashify_list(values))
+          end
+        else
+          hash.public_send(key, *args)
         end
       end
     end
 
-    def hashify_args(args)
+    def hashify_list(args)
       args.each_with_index do |a, i|
-        args[i] =
-          case a
-          when Hash then self.class.new(a)
-          when Array then hashify_args(a)
-          else a
-          end
+        args[i] = hashify_item(a)
+      end
+    end
+
+    def hashify_item(item)
+      case item
+      when Hash then self.class.new(item)
+      when Array then hashify_list(item)
+      else item
       end
     end
   end

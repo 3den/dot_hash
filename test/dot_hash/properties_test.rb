@@ -54,9 +54,31 @@ module DotHash
         end
       end
 
-      describe 'method delegation' do
+      describe 'with method delegation' do
         before do
           @properties = Properties.new({
+            ninja: {name: 'Naruto'}
+          })
+        end
+
+        it 'does not cache method calls' do
+          assert_equal(
+            properties.map { |k, v| v },
+            [{name: 'Naruto'}]
+          )
+
+          assert_equal(
+            properties.map { |k, v| {k => v.name} },
+            [{ninja: 'Naruto'}]
+          )
+        end
+
+        it '#merge! without crashing' do
+          properties.merge!({hero: 'One Punch'})
+          properties.merge!({hero: 'One Punch 2'})
+
+          assert_equal(properties, {
+            hero: 'One Punch 2',
             ninja: {name: 'Naruto'}
           })
         end
