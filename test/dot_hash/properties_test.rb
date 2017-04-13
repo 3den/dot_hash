@@ -74,6 +74,14 @@ module DotHash
 
           assert_equal result, Properties.new({ninja: 'Naruto'})
         end
+
+        it '#each_with_object goes nested on on array' do
+          result = properties.each_with_object([]) do |(k, v), acc|
+            acc.push v.name
+          end
+
+          assert_equal result, ['Naruto']
+        end
       end
     end
 

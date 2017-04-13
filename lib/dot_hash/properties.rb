@@ -20,7 +20,7 @@ module DotHash
     end
 
     def ==(other)
-      super || other.to_hash == hash
+      super(other) or other.to_hash == hash
     end
 
     def to_s
@@ -32,7 +32,15 @@ module DotHash
     end
 
     def [](key)
-      get_value(key)
+      fetch(key, nil)
+    end
+
+    def fetch(key, *args, &block)
+      key = hash.has_key?(key.to_s) ? key.to_s : key.to_sym
+      value = hash.fetch(key, *args, &block)
+
+      return value unless value.is_a?(Hash)
+      hash[key] = self.class.new value
     end
 
     private
@@ -44,7 +52,7 @@ module DotHash
     end
 
     def execute(key, *args, &block)
-      get_value(key) do
+      fetch(key) do
         hash.public_send(key, *args) do |*values|
           block.call(*hashify_args(values))
         end
@@ -52,23 +60,14 @@ module DotHash
     end
 
     def hashify_args(args)
-      args.map do |a|
-        if a.is_a?(Hash)
-          self.class.new(a)
-        elsif a.is_a?(Array)
-          hashify_args(a)
-        else
-          a
-        end
+      args.each_with_index do |a, i|
+        args[i] =
+          case a
+          when Hash then self.class.new(a)
+          when Array then hashify_args(a)
+          else a
+          end
       end
-    end
-
-    def get_value(key, &fallback)
-      key = hash.has_key?(key.to_s) ? key.to_s : key.to_sym
-      value = hash.fetch(key) { fallback ? fallback.call : nil }
-
-      return value unless value.is_a?(Hash)
-      hash[key] = self.class.new value
     end
   end
 end
