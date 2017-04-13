@@ -5,23 +5,22 @@ module DotHash
     end
 
     def load(*args)
-      hash.replace Loader.new(hash, *args).hash
+      merge! Loader.new(self, *args).hash
     end
 
     class << self
-      def method_missing(*args, &block)
-        instance.public_send(*args, &block)
+      [
+        :method_missing,
+        :respond_to_missing?,
+        :[],
+        :key?,
+        :load,
+        :to_hash
+      ].each do |m|
+        define_method(m) do |*args|
+          instance.send(m, *args)
+        end
       end
-
-      def respond_to_missing?(*args)
-        instance.respond_to?(*args)
-      end
-
-      def load(*args)
-        instance.load(*args)
-      end
-
-      private
 
       def instance
         @instance ||= new({})

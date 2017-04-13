@@ -42,19 +42,19 @@ module DotHash
       it 'merges new hashes' do
         # starts as a empty hash
         settings = Settings.new
-        assert_equal settings.hash, {}
+        assert_equal settings.to_hash, {}
 
         # loads a new hash
         settings.load({"name" => 'bar'})
-        assert_equal settings.hash, {"name" => "bar"}
+        assert_equal settings.to_hash, {"name" => "bar"}
 
         # replaces existent props
         settings.load({"name" => 'foo'})
-        assert_equal settings.hash, {"name" => "foo"}
+        assert_equal settings.to_hash, {"name" => "foo"}
 
         # loads more stuff from a file
         settings.load(fixtures_path)
-        assert_equal settings.hash, {
+        assert_equal settings.to_hash, {
           "name" => "foo",
           "default" => {"attr" => {"speed"=>10, "power"=>11}},
           "rogue"=>{"attr"=>{"speed"=>25, "power"=>11}},
@@ -71,6 +71,7 @@ module DotHash
 
       it "gets hash properties" do
         assert_equal Settings.site, "skyo.com"
+        assert_equal Settings[:site], "skyo.com"
         assert_equal Settings['site'], "skyo.com"
       end
     end
