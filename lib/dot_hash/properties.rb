@@ -43,13 +43,13 @@ module DotHash
       hash[key] = self.class.new value
     end
 
-    private
-
     def has_key?(key)
       hash.has_key?(key.to_s) or
         hash.has_key?(key.to_sym) or
         hash.respond_to?(key)
     end
+
+    private
 
     def execute(key, *args, &block)
       fetch(key) do
