@@ -19,6 +19,10 @@ module DotHash
       has_key?(key) or super(key, *args)
     end
 
+    def ==(other)
+      super || other.to_hash == hash
+    end
+
     def to_s
       hash.to_s
     end
@@ -40,15 +44,21 @@ module DotHash
     end
 
     def execute(key, *args, &block)
-      klass = self.class
-
       get_value(key) do
         hash.public_send(key, *args) do |*values|
-          values = values.flatten.map do |a|
-            a.is_a?(Hash) ? klass.new(a) : a
-          end
+          block.call(*hashify_args(values))
+        end
+      end
+    end
 
-          block.call(*values)
+    def hashify_args(args)
+      args.map do |a|
+        if a.is_a?(Hash)
+          self.class.new(a)
+        elsif a.is_a?(Array)
+          hashify_args(a)
+        else
+          a
         end
       end
     end

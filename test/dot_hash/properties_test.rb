@@ -61,12 +61,39 @@ module DotHash
           })
         end
 
-        it 'converts innerhashes to Properties' do
-          assert_equal(
-            properties.map { |k, v| "#{k}: #{v.name}" },
-            ['ninja: Naruto']
-          )
+        it '#map sets inner-hashes to Properties' do
+          result = properties.map { |k, v| "#{k}: #{v.name}" }
+
+          assert_equal result, ['ninja: Naruto']
         end
+
+        it '#each_with_object goes nested on block args' do
+          result = properties.each_with_object({}) do |(k, v), acc|
+            acc[k] = v.name
+          end
+
+          assert_equal result, Properties.new({ninja: 'Naruto'})
+        end
+      end
+    end
+
+    describe '#==' do
+      before do
+        @properties = Properties.new({
+          ninja: {name: 'Naruto'}
+        })
+      end
+
+      it 'is equal to it self' do
+        assert_equal properties, properties
+      end
+
+      it 'is equal to its hash' do
+        assert_equal properties, {ninja: {name: 'Naruto'}}
+      end
+
+      it 'is equal to its copy' do
+        assert_equal properties, Properties.new(properties.hash)
       end
     end
 
