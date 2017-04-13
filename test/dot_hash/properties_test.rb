@@ -54,22 +54,37 @@ module DotHash
         end
       end
 
-      describe "#[]" do
+      describe 'method delegation' do
         before do
-          @properties = Properties.new user: { name: "dude" }
+          @properties = Properties.new({
+            ninja: {name: 'Naruto'}
+          })
         end
 
-        it "accesses properties like a symbol hash" do
-          assert_equal properties[:user][:name], "dude"
+        it 'converts innerhashes to Properties' do
+          assert_equal(
+            properties.map { |k, v| "#{k}: #{v.name}" },
+            ['ninja: Naruto']
+          )
         end
+      end
+    end
 
-        it "accesses properties like a string hash" do
-          assert_equal properties["user"]["name"], "dude"
-        end
+    describe "#[]" do
+      before do
+        @properties = Properties.new user: { name: "dude" }
+      end
 
-        it 'returns nil when value not present' do
-          assert_nil properties['missing']
-        end
+      it "accesses properties like a symbol hash" do
+        assert_equal properties[:user][:name], "dude"
+      end
+
+      it "accesses properties like a string hash" do
+        assert_equal properties["user"]["name"], "dude"
+      end
+
+      it 'returns nil when value not present' do
+        assert_nil properties['missing']
       end
     end
 

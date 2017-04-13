@@ -5,7 +5,7 @@ module DotHash
     end
 
     def load(*args)
-      @hash = Loader.new(hash, *args).hash
+      hash.replace Loader.new(hash, *args).hash
     end
 
     class << self

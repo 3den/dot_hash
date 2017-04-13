@@ -40,8 +40,16 @@ module DotHash
     end
 
     def execute(key, *args, &block)
+      klass = self.class
+
       get_value(key) do
-        hash.public_send(key, *args, &block)
+        hash.public_send(key, *args) do |*values|
+          values = values.flatten.map do |a|
+            a.is_a?(Hash) ? klass.new(a) : a
+          end
+
+          block.call(*values)
+        end
       end
     end
 
