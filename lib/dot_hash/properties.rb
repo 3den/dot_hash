@@ -37,17 +37,15 @@ module DotHash
     end
 
     def fetch(key, *args, &block)
-      key = hash.has_key?(key.to_s) ? key.to_s : key.to_sym
-      value = hash.fetch(key, *args, &block)
+      key_sym = key.to_sym
 
-      if value.nil? or hash.respond_to?(key)
-        hashify_item value
-      elsif cached.has_key?(key)
-        value
-      else
-        cached[key] = true
-        hash[key] = hashify_item(value)
+      value = cached.fetch(key_sym) do
+        key = hash.has_key?(key_sym) ? key_sym : key.to_s
+        hashify_item hash.fetch(key, *args, &block)
       end
+
+      return value if skip_cache?(key_sym, value)
+      cached[key_sym] = value
     end
 
     def has_key?(key)
@@ -59,7 +57,11 @@ module DotHash
     private
 
     def cached
-      @cached ||= self.class.new({})
+      @cached ||= {}
+    end
+
+    def skip_cache?(key, value)
+      value.nil? or hash.respond_to?(key) or cached.has_key?(key)
     end
 
     def execute(key, *args, &block)
