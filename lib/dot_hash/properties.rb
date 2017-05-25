@@ -2,6 +2,7 @@ module DotHash
   class Properties
     attr_reader :hash
     alias_method :to_hash, :hash
+    alias_method :to_h, :hash
 
     def initialize(hash)
       @hash = hash

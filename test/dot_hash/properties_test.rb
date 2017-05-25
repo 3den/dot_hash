@@ -145,13 +145,19 @@ module DotHash
       end
     end
 
-    describe "#to_hash" do
+    describe "#hash" do
       before do
         @properties = Properties.new user: { name: "dude" }
       end
 
-      it "returns a hash" do
+      it 'matches given hash' do
+        assert_equal({user: {name: "dude"}}, properties)
+      end
+
+      it "returns a hash using alias methods" do
+        assert_equal properties.hash, user: {name: "dude"}
         assert_equal properties.to_hash, user: {name: "dude"}
+        assert_equal properties.to_h, user: {name: "dude"}
       end
     end
 
